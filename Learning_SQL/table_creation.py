@@ -23,5 +23,21 @@ CREATE TABLE person
  postal_code VARCHAR(20),
  CONSTRAINT pk_person PRIMARY KEY (person_id)
 );
+# IMP! NULL: could be 'Not applicable'/ 'Unknown'/ 'Empty set' 
+
+# to make sure the new table exists, use the "describe" command to see the table:
+desc person;
+
+#Now I create favorite_food table (because a person could have more than one favorite food), FK will be importante to relationate both tables
+CREATE TABLE favorite_food
+(person_id SMALLINT UNSIGNED,
+ food VARCHAR(20),
+ CONSTRAINT pk_favorite_food PRIMARY KEY (person_id, food),
+ CONSTRAINT fk_fav_food_person_id FOREIGN KEY (person_id)
+ REFERENCES person (person_id)
+ );
+
+#IMP! 1)this table has a 'two columns'primary key: (person_id, food) 
+#	  2) contains the values of the person_id column in the favorite_food table to include only values found in the person table. (FK)
 
 
