@@ -1,5 +1,6 @@
-
-#I will defineda table to hold information about a person
+DROP TABLE IF EXISTS person;
+DROP TABLE IF EXISTS favorite_food;
+#I will define a table to hold information about a person
 
 # STEP 1: 'Design'
 #discuss: types of info that describes a person: Name, Eye Color, Birth date, Address, Favorite Foods
@@ -41,3 +42,29 @@ CREATE TABLE favorite_food
 #	  2) contains the values of the person_id column in the favorite_food table to include only values found in the person table. (FK)
 
 
+#PK: it's better to use the 'autoincrement' feature (it will appear in the 'Extra' column. So, I will ALTER the table, BUT atte!! 
+#first I need to disable de FK constraint on the favorite_table and the  re-enable the constraints when finished:
+set foreign_key_checks = 0;
+ALTER TABLE person 
+MODIFY person_id SMALLINT UNSIGNED AUTO_INCREMENT;
+set foreign_key_checks =1;
+
+DESC person;
+
+#INSERTING DATA
+
+INSERT INTO person
+	(person_id, fname, lname, eye_color, birth_date)
+VALUES (null, 'William', 'Turner', 'BR', '1972-05-27');
+#To see the data just added:
+SELECT person_id,
+	   fname,
+	   lname,
+	   eye_color,
+	   birth_date
+FROM person;
+WHERE person_id = 1;
+ #it also coul be WHERE lname ='Turner';
+
+ # imp bullets:
+ 
