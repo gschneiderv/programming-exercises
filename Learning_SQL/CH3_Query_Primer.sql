@@ -36,3 +36,100 @@ FROM
     	last_name
     FROM customer
     WHERE first_name = 'JESSIE') AS cust;
+
+/*3) Temporary tables 
+# these tables (volatile or temporary) look like permanent tables but any data inserted into a temporary table will disappear at some point
+# (generally at the end of a transaction or when de DB session is closed): ex: show how actors whose last names start with 'J' can be 
+#stored temporary:
+ */  
+CREATE TEMPORARY TABLE actors_J
+ (actor_id smallint(5),
+ first_name varchar(45),
+ last_name varchar(45)
+ );
+
+INSERT INTO actors_J
+(SELECT actor_id, first_name, last_name
+FROM actor
+WHERE last_name LIKE 'J%');
+
+/*To check info inserted: */
+SELECT * 
+FROM  actors_J;
+/*imp: these 7 rows will disappear after the session is closed.*/
+
+/*4) Views (is a "Virtual table")
+def: a view is a query that is stored in the data dictionary. It looks and acts like a table but hasnt data associated. When you issue a query against a view, your query is merged with the view definition to create a final query to be executed:
+ex: a view definition that queries the employee table and includes 4 of the available columns
+So, why i need it? various reasons but for ex: to hide columns from users and to simplify complex database designs
+*/
+CREATE VIEW	 cust_vw AS
+(SELECT customer_id,
+		first_name,
+		last_name,
+		active
+FROM customer);
+
+SELECT first_name,
+	last_name,
+	active
+FROM cust_vw 
+WHERE active = 0;
+
+/* Linking tables (JOIN), see Chapter 5 and 10, here an ex: */
+
+SELECT c.first_name,
+	c.last_name,
+	time(r.rental_date) AS rental_time
+FROM customer c
+INNER JOIN rental r
+ON  c.customer_id  = r. customer_id 
+WHERE date(r.rental_date) = '2005-06-14';
+
+/*GROUP BY and HAVING clauses , Chapter 8: full description
+ex: Lets find all the customers who have rented 40 or more films. How to think it?
+write a query that group all rentals by customer, count the number of rentals for each customer and then 
+return  ONLY the customers whose rental_count >= 40 */
+
+SELECT c.first_name,
+	c.last_name,
+	COUNT(r.customer_id) AS rental_count
+FROM customer c
+INNER JOIN rental r 
+ON c.customer_id = r.customer_id 
+GROUP BY c.first_name ,c.last_name  
+HAVING rental_count >= 40;
+
+/*ORDER BY..
+it can be sorted by Ascending, descending or using a number refering the place where a column appear in the SELECT clause 
+ex: */
+SELECT c.first_name,
+	c.last_name,
+	time(r.rental_date) AS rental_time
+FROM customer c
+INNER JOIN rental r
+ON  c.customer_id  = r. customer_id 
+WHERE date(r.rental_date) = '2005-06-14'
+ORDER BY 3 desc;
+
+/*Test You Knowledge
+
+#Exercise 3-1
+# Retrieve the actor ID, first Name, and the last name for all actors. Sort by last name and then first name.
+*/
+SELECT 
+	actor_id,	
+	first_name,
+	last_name
+FROM actor a 
+ORDER BY 3,2;
+
+/*Exercise 3-2
+Retrieve the actor ID, first Name, and the last name for all actors whose last name equals 'WILLIAMS' or  'DAVIS'.
+*/
+SELECT 
+	actor_id,
+	first_name,
+	last_name 
+FROM actor a 
+WHERE last_name ='WILLIAMS' or last_name ='DAVIS';
