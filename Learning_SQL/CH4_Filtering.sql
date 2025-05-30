@@ -130,3 +130,43 @@ SELECT
 	return_date 
 FROM rental r  
 WHERE return_date IS NULL OR return_date NOT BETWEEN '2005-05-01' AND '2005-09-01'; 
+
+/*Test You Knowledge
+
+Exercise 3-1
+
+Which of the payments IDs would be returned by the following filter conditions? (on a given subset)
+customer_id <> 5 AND (amount > 8 OR date(payment_date)= '2005-08-23')
+*/
+SELECT ps.payment_id
+FROM (SELECT payment_id, customer_id, amount, date(payment_date) AS paym_date
+		FROM payment p
+		WHERE payment_id > 100 AND payment_id <= 120) AS ps 
+WHERE ps.customer_id <> 5 AND (ps.amount > 8 OR ps.paym_date= '2005-08-23');
+
+/*
+Exercise 3-2
+Which of the payment IDs would be returned by the following filter conditions? (on a given subset)
+customer_id = 5 AND NOT (amount >6 OR date(payment_date) = '2005-06-19')
+*/
+SELECT ps.payment_id
+FROM (SELECT payment_id, customer_id, amount, date(payment_date) AS paym_date
+		FROM payment p
+		WHERE payment_id > 100 AND payment_id <= 120) AS ps 
+WHERE ps.customer_id = 5 AND NOT (ps.amount >6 OR ps.paym_date = '2005-06-19')
+
+/*
+Exercise 3-3
+Construct a query that retrieves all rows from the payments table where the amount is either 1.98, 7.98, or 9.98
+*/
+SELECT amount 
+FROM payment p 
+WHERE amount IN (1.98, 7.98, 9.98);
+
+/*
+Exercise 3-4
+Construct a query that finds all customers whose last name cointains an A in the second position and a W anywhere after the A.
+*/
+SELECT last_name, first_name  
+FROM customer c 
+WHERE last_name LIKE '_A%W%';
