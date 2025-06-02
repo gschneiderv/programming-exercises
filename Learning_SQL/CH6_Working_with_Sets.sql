@@ -16,7 +16,12 @@ UNION ALL (SELECT
 				a.first_name, 
 				a.last_name 
 			FROM actor a);
-
+ 
+ /*
+Other Operators:
+-- intersect 
+-- except
+*/
 
 /*Test You Knowledge
 
@@ -30,7 +35,17 @@ What sets are generated? by:
 *)A INTERSECT B = {P} 
 *) A EXCEPT B ={L M N O}
 
-Exercise 6-2
+
+		
+Exercise 6-2 Y 6-3 (IDEM 6-2 + sort by last name)
 Write a compound query that finds the first and last names of all actors and customers 
 whose last name starts with L
 */
+SELECT a.first_name , a.last_name 
+FROM actor a
+WHERE a.last_name LIKE 'L%'
+UNION ALL 
+SELECT c.first_name, c.last_name
+FROM customer c 
+WHERE  c.last_name LIKE 'L%'
+ORDER BY last_name; 
