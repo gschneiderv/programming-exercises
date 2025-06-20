@@ -86,7 +86,8 @@ on which the database resides.
  
  **String To Date Convertions
  
- cast()ex:
+ cast('value in str form' AS TYPE (I will to convert)),moreover if any nonnumerica character are found in the string(a letter), 
+ the conversion halts without an error and return only the number, exs:
  
  SELECT CAST('2009-09-17 15:30:00' AS DATETIME); ---> 2009-09-17 15:30:00
  
@@ -111,4 +112,42 @@ current() to return the SYSTEM clock: CURRENT_DATE() / CURRENT_TIME() /CURRENT_T
  
  last_day() to find the last day of month, always return a DATE , ex: SELECT LAST_DAY('2019-09-17') --> 2019-09-30 . its very useful for february ajaj
  
- 
+ ** Temporal functions that return strings:
+
+ dayname() to determine which day of the week a crtain date falls on
+				ex: SELECT DAYNAME('2019-09-18') --> 'Wednesday'
+
+extract() its a general way to extract info from a date.
+				ex: SELECT EXTRACT(YEAR FROM '2019-09-18 22:19:05') ---> '2019'
+
+** Temporal functions that return numbers
+
+datediff() to determine the number of full interval between 2 dates (could be days, months or years). This function ignores the time of day
+			in its arguments. Even if they are included, setting it to one second until midnight for the 1st date and to one second after 
+			midnight for the 2nd date, those times will have no effect on the calculation. changing the arg will give a negative number(-74)
+				ex: SELECT DATEDIFF('2019-09-18', '2019-06-21') ---> 74
+
+**Test you knowledge**
+
+Exercise 7-1
+
+Write a query that returns the 17th through 25th characters of the string 'Please find the substring in this string'
+
+SELECT SUBSTRING('Please find the substring in this string', 17, 9) --> 'substring'
+
+Exercise 7-2
+
+Write a query that returns the absolute value and sing(-1, 0 or 1) of the number  -25.76823. Also return the number rounded to the nearest
+hundredth
+
+SELECT ABS(-25.76823),
+	   SIGN(-25.76823),
+	   ROUND(-25.76823, 2)
+
+Exercise 7-3
+
+Write a query to return just the month portion of the current date
+
+SELECT MONTH(CURRENT_DATE()) --->6
+
+it also csn be use EXTRACT(MONTH FROM CURRENT_DATE())
