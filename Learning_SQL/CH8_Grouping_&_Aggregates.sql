@@ -79,5 +79,12 @@ SELECT
 FROM rental r; 
 
 /*
- HOW NULLs are handled--> see def of fuctions above
-*/
+HOW NULLs are handled--> see def of fuctions above
+
+Generating Groups --
+
+Ex of common calculations:
+** Generating totals for a geographic region(sales, ex)
+** Finding outliers (ex: top salesperson for 2020)
+** Determining frequencies, such as the number of films rented in each month
+
