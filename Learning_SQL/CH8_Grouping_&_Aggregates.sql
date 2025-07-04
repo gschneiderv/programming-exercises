@@ -87,4 +87,25 @@ Ex of common calculations:
 ** Generating totals for a geographic region(sales, ex)
 ** Finding outliers (ex: top salesperson for 2020)
 ** Determining frequencies, such as the number of films rented in each month
+*/
+/*     1) Single-column Grouping    */
+
+SELECT 
+	actor_id,
+	count(*)
+FROM film_actor
+GROUP BY 1;	
+
+/*     2) Multicolumn Grouping    
+EX: find the total number of films for each films rating for each actor.*/
+
+SELECT 
+	fa.actor_id,
+	f.rating , 
+	COUNT(*)AS total_number
+FROM film_actor fa
+	INNER JOIN film f 
+	ON fa.film_id = f.film_id 
+GROUP BY fa.actor_id, f.rating;
+
 
